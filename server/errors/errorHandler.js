@@ -6,9 +6,7 @@ handleErr = (err, req, res, next) => {
   else
     res.status(500);
   res.send(err.message);
-  console.log("####################");
   console.log(err);
-  console.log("####################");
 }
 
 
