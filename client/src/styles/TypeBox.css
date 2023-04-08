@@ -1,0 +1,24 @@
+.typebox-container {
+    margin: 10px;
+}
+
+.typebox-select {
+    font-size: 16px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.typebox-select .css-1uccc91-singleValue {
+    color: #4a4a4a;
+}
+
+.typebox-select .css-12jo7m5 {
+    background-color: #a3b3ce;
+    border: none;
+    border-radius: 5px;
+}
+
+.typebox-select .css-12jo7m5:hover {
+    background-color: #8e9fb2;
+}
