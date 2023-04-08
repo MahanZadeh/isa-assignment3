@@ -60,7 +60,7 @@ function ErrorEndpoints () {
                 {   
                 label: "4xx Errors by Route",
                 data: Object.values(routeCount).map(entry => entry),
-                backgroundColor: "Orange",
+                backgroundColor: ["red", "blue", "green"], 
             }
         ]
     }

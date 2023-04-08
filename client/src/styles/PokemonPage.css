@@ -10,6 +10,8 @@
     background-color: #e5c8db;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    min-height: 300px;
+    /* Adjust the minimum height according to your needs */
 }
 
 .card-title {
@@ -26,33 +28,16 @@
     font-size: 14px;
 }
 
-.card-button-container {
-    text-align: center;
-    margin-top: 10px;
+.card-content {
+    min-height: 250px;
+    /* Adjust the height based on your requirements */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.card-button {
-    background-color: #a3b3ce;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.card-button:hover {
-    background-color: #8e9fb2;
-}
-
-.extra-info {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 14px;
-    color: #4a4a4a;
-}
-
-.card {
-    min-height: 300px;
-    /* Adjust the minimum height according to your needs */
+.card-bottom {
+    margin-top: auto;
 }
 
 .button-container {
@@ -64,5 +49,20 @@
 .button-style {
     font-size: 14px;
     width: 100px;
-    background-color: #a3b3ce; 
+    background-color: #a3b3ce;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-style:hover {
+    background-color: #8e9fb2;
+}
+
+.extra-info {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    color: #4a4a4a;
 }
