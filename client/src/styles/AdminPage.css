@@ -1,0 +1,44 @@
+/* General styling for the page */
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #4a4a4a;
+  }
+  
+  /* Style for Logout Button */
+  .Button {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    background-color: #009688;
+    color: white;
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+  
+  /* Card styling */
+  .Card {
+    margin-bottom: 20px;
+    border: 1px solid #4a4a4a;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Card.Title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 767px) {
+    .Button {
+      width: 100%;
+    }
+  }
+  
+  .app-container {
+    background-color: #f2eef3;
+    
+  }
