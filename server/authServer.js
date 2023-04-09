@@ -86,7 +86,9 @@ app.get("/authUser", async (req, res) => {
 })
 
 app.get("/authUser", async (req, res) => {
-  const token = req.cookies['access_token'];
+  // const token = req.cookies['access_token'];
+  const token = req.signedCookies['access_token'] || req.unsignedCookies['access_token'];
+
   console.log("token Mahan:", token);
 
   if (!token) {
