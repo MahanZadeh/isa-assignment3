@@ -46,7 +46,7 @@ app.post('/register', asyncWrapper(async (req, res) => {
   const accessToken = jwt.sign({ _id: username }, process.env.TOKEN_SECRET);
   const userWithHashedPassword = { ...req.body, password: hashedPassword, apiKey: accessToken };
   console.log("accessToken MAHAN:", accessToken);
-  res.cookie("mahan", "tired", { maxAge: 2 * 60 * 60 * 1000, sameSite: 'lax', secure: false });
+  res.cookie("mahan", "tired", { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
 
   const user = await userModel.create(userWithHashedPassword);
   res.send({ msg: "Registered!", apiKey: user.apiKey });
@@ -69,9 +69,9 @@ app.post('/login', asyncWrapper(async (req, res) => {
   // });
   // res.json({apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!"});
 
-  res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'lax', secure: false });
-  res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'lax', secure: false });
-  res.cookie("is_admin", user.admin, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'lax', secure: false });
+  res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
+  res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
+  res.cookie("is_admin", user.admin, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
   console.log("username:", user.username, "apiKey:", user.apiKey, "isAdmin:", user.admin);
   res.cookie("sea", "blue");
   res.cookie("land", "green");
@@ -91,7 +91,7 @@ app.post('/logout', asyncWrapper(async (req, res) => {
 //   res.json({ error: 0, data: req.cookies});
 // })
 
-app.get('/mahan', async(req, res) => {
+app.get('/mahan', async (req, res) => {
   res.cookie("se222a", "blue");
   res.cookie("la222nd", "green");
 
