@@ -41,7 +41,7 @@ function AdminLogin() {
 
   const getCurrentUser = async () => {
     var { data } = await apiGetAuthUser();
-    console.log(data);
+    console.log("bere mahan2", data);
     var adminGuy = data.data.is_admin;
 
     if (adminGuy === 'true') {
