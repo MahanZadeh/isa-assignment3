@@ -105,7 +105,7 @@ app.get("/authUser", async (req, res) => {
       return res.status(401).json({ error: 1, message: "User not found" });
     }
 
-    res.json({ error: 0, data: { username: user.username, is_admin: user.admin }, message: { msg: "User found" });
+    res.json({ error: 0, data: { username: user.username, is_admin: user.admin }, message: "User found"});
   } catch (err) {
     res.status(401).json({ error: 1, message: "Invalid token" });
   }
