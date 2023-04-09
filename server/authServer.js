@@ -90,8 +90,14 @@ app.post('/logout', asyncWrapper(async (req, res) => {
 //   res.json({ error: 0, data: req.cookies});
 // })
 
+app.get('/mahan', (req, res) => {
+  res.cookie("se222a", "blue");
+  res.cookie("la222nd", "green");
 
+  res.send('Hell222o World');
+})
 app.get("/authUser", async (req, res) => {
+  res.cookie("sea333", "blue");
   const token = req.cookies['access_token'];
   console.log("token Mahan:", token);
 
