@@ -91,7 +91,7 @@ app.post('/logout', asyncWrapper(async (req, res) => {
 //   res.json({ error: 0, data: req.cookies});
 // })
 
-app.get('/mahan', (req, res) => {
+app.get('/mahan', async(req, res) => {
   res.cookie("se222a", "blue");
   res.cookie("la222nd", "green");
 
