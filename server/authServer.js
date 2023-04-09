@@ -86,8 +86,8 @@ app.get("/authUser", async (req, res) => {
 })
 
 app.get("/authUser", async (req, res) => {
-  const token = req.cookies["access_token"];
-  console.log("token Mahan in auth:", token);
+  const token = req.cookies['access_token'];
+  console.log("token Mahan:", token);
 
   if (!token) {
     return res.status(401).json({ error: 1, message: "Access denied" });
