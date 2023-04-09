@@ -29,7 +29,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    methods:['GET', 'POST', 'PUT', 'DELETE']
   })
 );
 
@@ -51,11 +51,9 @@ const start = asyncWrapper(async () => {
 start();
 
 const auth = (req, res, next) => {
-  // const token = req.cookies['access_token'];
-  // console.log("Authentication token: " + token);
-  const token = req.signedCookies['access_token'] || req.unsignedCookies['access_token'];
+  const token = req.cookies["access_token"];
+  console.log("Authentication token: " + token);
 
-  console.log("Authentication token mahan::", token);
   if (!token) {
     throw new PokemonBadRequest("Access denied");
   }
@@ -126,7 +124,7 @@ const logUniqueAPIUsers = async (username) => {
 const logEndPointUsage = async (username, apiEndpoint) => {
 
   try {
-    const endpointVisit = await topUserEndPoints.findOne({ endpoint: apiEndpoint });
+    const endpointVisit = await topUserEndPoints.findOne({endpoint: apiEndpoint});
 
     if (endpointVisit) {
       let added = false;
@@ -167,7 +165,7 @@ const logRouteAccess = async (apiEndpoint, statusNum, method) => {
     routeAccesLog.create({
       endpoint: apiEndpoint,
       method: method,
-      status: statusNum,
+      status: statusNum, 
     });
 
   } catch (err) {
@@ -180,7 +178,7 @@ app.use(auth) // Boom! All routes below this line are protected
 app.use(morgan(":method :url :status :username"));
 app.use(morgan((token, req, res) => {
   let username = req.cookies['username'];
-  let endpoint = token.url(req);
+  let endpoint  = token.url(req);
   let status = token.status(req, res);
   let method = token.method(req, res);
 
@@ -266,23 +264,23 @@ app.delete('/api/v1/pokemon/:id', asyncWrapper(async (req, res) => {
 }))
 
 app.get('/api/v1/pokemonImage/:id', (req, res) => {
-
+    
   let searchParam = req.params.id;
-
+  
   if (isNaN(parseInt(searchParam)) || parseInt(searchParam) > 801) {
-    res.send("PLEASE ENTER A VALID POKEMON ID!");
-    return;
+      res.send("PLEASE ENTER A VALID POKEMON ID!");
+      return;
   }
 
   searchParam = searchParam.padStart(3, "0");
-
+  
   res.send("https://github.com/fanzeyi/pokemon.json/blob/master/images/" + searchParam + ".png");
 });
 
-app.post('/admin/users', asyncWrapper(async (req, res) => {
+app.post('/admin/users', asyncWrapper(async (req, res)  => {
   // const date = new Date(req.body.date).toISOString().substring(0, 10);
   const date = req.body.date;
-  const userDocs = await apiUserStats.findOne({ date: date });
+  const userDocs = await apiUserStats.findOne({date: date});
   var uniqueUsers = [];
 
   if (userDocs) {
@@ -302,10 +300,9 @@ app.post('/admin/users', asyncWrapper(async (req, res) => {
 app.post('/admin/unique', asyncWrapper(async (req, res) => {
   const userDocs = await apiUserStats.find({
     $and: [
-      { 'date': { $lte: req.body.endDate } },
-      { 'date': { $gte: req.body.startDate } }
-    ]
-  });
+      {'date': { $lte: req.body.endDate}},
+      {'date': {$gte: req.body.startDate}}
+  ]});
 
   res.json(userDocs);
 }))
@@ -315,7 +312,7 @@ app.get('/admin/endpoints', asyncWrapper(async (req, res) => {
   res.json(userDocs);
 }))
 
-app.get('/admin/accesslogs', asyncWrapper(async (req, res) => {
+app.get('/admin/accesslogs', asyncWrapper(async(req, res) => {
   const userDocs = await routeAccesLog.find({});
   res.json(userDocs);
 }))
