@@ -27,7 +27,6 @@ function AdminLogin() {
 
     if (!error && resData && resData.isAdmin) {
       console.log(resData);
-      console.log("login success");
       setCredentialError(false);
       navigate("/");
     } else {
@@ -42,7 +41,7 @@ function AdminLogin() {
 
   const getCurrentUser = async () => {
     var { data } = await apiGetAuthUser();
-    console.log("bere mahan2", data);
+    console.log(data);
     var adminGuy = data.data.is_admin;
 
     if (adminGuy === 'true') {

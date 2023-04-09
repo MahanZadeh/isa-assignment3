@@ -12,7 +12,6 @@ function withAdminAuth(WrappedComponent) {
         const getCurrentUser = async () => {
             var { error, data } = await apiGetAuthUser();
             var adminGuy = data.data.is_admin;
-            console.log("ADMIN GUY:", adminGuy, "ERROR:", error, "DATA:", data, "here");
          
             if (!error && adminGuy === 'true') {
                 setIsAdmin(true);

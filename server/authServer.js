@@ -19,9 +19,9 @@ app.use(express.json())
 app.use(cookieParser());
 app.use(
   cors({
-    // origin: ["http://localhost:3000","http://172.25.208.1:3000"],
-    credentials: true,
+    // origin: "http://localhost:3000",
     origin: true,
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
   })
 );
@@ -33,7 +33,7 @@ const start = asyncWrapper(async () => {
     if (err)
       throw new PokemonDbError(err);
     else
-      console.log(`Phew! Sautherver is running on port: ${process.env.authServerPORT}`);
+      console.log(`Phew! Server is running on port: ${process.env.authServerPORT}`);
   })
 });
 
@@ -45,8 +45,6 @@ app.post('/register', asyncWrapper(async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
   const accessToken = jwt.sign({ _id: username }, process.env.TOKEN_SECRET);
   const userWithHashedPassword = { ...req.body, password: hashedPassword, apiKey: accessToken };
-  console.log("accessToken MAHAN:", accessToken);
-  res.cookie("mahan", "tired", { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
 
   const user = await userModel.create(userWithHashedPassword);
   res.send({ msg: "Registered!", apiKey: user.apiKey });
@@ -68,13 +66,11 @@ app.post('/login', asyncWrapper(async (req, res) => {
   //   maxAge: 2 * 60 * 60 * 1000, 
   // });
   // res.json({apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!"});
-
   res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
   res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
   res.cookie("is_admin", user.admin, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
   console.log("username:", user.username, "apiKey:", user.apiKey, "isAdmin:", user.admin);
   res.json({ apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!" });
-
 
 }));
 
@@ -85,9 +81,9 @@ app.post('/logout', asyncWrapper(async (req, res) => {
   res.json({ msg: "LOGGED OUT" });
 }));
 
-// app.get("/authUser", async (req, res) => {
-//   res.json({ error: 0, data: req.cookies});
-// })
+app.get("/authUser", async (req, res) => {
+  res.json({ error: 0, data: req.cookies });
+})
 
 app.get("/authUser", async (req, res) => {
   const token = req.cookies['access_token'];
@@ -104,14 +100,13 @@ app.get("/authUser", async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: 1, message: "User not found" });
     }
+    res.json({ error: 0, data: req.cookies });
 
-    res.json({ error: 0, data: { username: user.username, is_admin: user.admin }, message: "User found"});
+    // res.json({ error: 0, data: { username: user.username, is_admin: user.admin }, message: "User found"});
   } catch (err) {
     res.status(401).json({ error: 1, message: "Invalid token" });
   }
 });
-
-
 
 
 app.use(handleErr);

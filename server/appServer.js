@@ -44,15 +44,13 @@ const start = asyncWrapper(async () => {
     if (err)
       throw new PokemonDbError(err)
     else
-      console.log(`Phew! appServer is running on port: ${process.env.pokeServerPORT}`);
+      console.log(`Phew! Server is running on port: ${process.env.pokeServerPORT}`);
   })
 })
 
 start();
 
 const auth = (req, res, next) => {
-  console.log("Request cookies: ", req.cookies);
-
   const token = req.cookies['access_token'];
   console.log("Authentication token: " + token);
 
