@@ -32,7 +32,7 @@ const start = asyncWrapper(async () => {
     if (err)
       throw new PokemonDbError(err);
     else
-      console.log(`Phew! Server is running on port: ${process.env.authServerPORT}`);
+      console.log(`Phew! Sautherver is running on port: ${process.env.authServerPORT}`);
   })
 });
 
