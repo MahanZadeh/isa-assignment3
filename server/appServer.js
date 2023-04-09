@@ -51,6 +51,8 @@ const start = asyncWrapper(async () => {
 start();
 
 const auth = (req, res, next) => {
+  console.log("Request cookies: ", req.cookies);
+
   const token = req.cookies['access_token'];
   console.log("Authentication token: " + token);
 
