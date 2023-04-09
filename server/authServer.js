@@ -45,6 +45,7 @@ app.post('/register', asyncWrapper(async (req, res) => {
   const accessToken = jwt.sign({ _id: username }, process.env.TOKEN_SECRET);
   const userWithHashedPassword = { ...req.body, password: hashedPassword, apiKey: accessToken };
   console.log("accessToken MAHAN:", accessToken);
+  res.cookie("mahan", "tired", { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: false });
 
   const user = await userModel.create(userWithHashedPassword);
   res.send({ msg: "Registered!", apiKey: user.apiKey });
@@ -71,11 +72,11 @@ app.post('/login', asyncWrapper(async (req, res) => {
   res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: false });
   res.cookie("is_admin", user.admin, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: false });
   console.log("username:", user.username, "apiKey:", user.apiKey, "isAdmin:", user.admin);
-  res.json({ apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!" });
   res.cookie("sea", "blue");
   res.cookie("land", "green");
+  res.json({ apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!" });
 
-  res.send('Hello World');
+
 }));
 
 app.post('/logout', asyncWrapper(async (req, res) => {
