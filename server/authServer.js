@@ -74,8 +74,33 @@ app.post('/logout', asyncWrapper( async (req, res) => {
   res.json({msg: "LOGGED OUT"});
 }));
 
+// app.get("/authUser", async (req, res) => {
+//   res.json({ error: 0, data: req.cookies});
+// })
+
+
 app.get("/authUser", async (req, res) => {
-  res.json({ error: 0, data: req.cookies});
-})
+  const token = req.cookies['access_token'];
+  
+  if (!token) {
+    return res.status(401).json({ error: 1, message: "Access denied" });
+  }
+
+  try {
+    const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+    const user = await userModel.findOne({ username: verified._id });
+
+    if (!user) {
+      return res.status(401).json({ error: 1, message: "User not found" });
+    }
+
+    res.json({ error: 0, data: { username: user.username, is_admin: user.admin } });
+  } catch (err) {
+    res.status(401).json({ error: 1, message: "Invalid token" });
+  }
+});
+
+
+
 
 app.use(handleErr);
