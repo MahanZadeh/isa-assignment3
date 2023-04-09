@@ -21,7 +21,7 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
-    methods:['GET', 'POST', 'PUT', 'DELETE']
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
   })
 );
 
@@ -43,10 +43,10 @@ app.post('/register', asyncWrapper(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const accessToken = jwt.sign({ _id: username }, process.env.TOKEN_SECRET);
-  const userWithHashedPassword = { ...req.body, password: hashedPassword, apiKey: accessToken};
+  const userWithHashedPassword = { ...req.body, password: hashedPassword, apiKey: accessToken };
 
   const user = await userModel.create(userWithHashedPassword);
-  res.send({msg: "Registered!", apiKey: user.apiKey});
+  res.send({ msg: "Registered!", apiKey: user.apiKey });
 }));
 
 app.post('/login', asyncWrapper(async (req, res) => {
@@ -59,19 +59,24 @@ app.post('/login', asyncWrapper(async (req, res) => {
   if (!isPasswordCorrect) {
     throw new PokemonBadRequest("Password is incorrect")
   }
-  res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000 });
-  res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000 });
-  res.cookie("is_admin", user.admin, { 
-    maxAge: 2 * 60 * 60 * 1000, 
-  });
-  res.json({apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!"});
+  // res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000 });
+  // res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000 });
+  // res.cookie("is_admin", user.admin, { 
+  //   maxAge: 2 * 60 * 60 * 1000, 
+  // });
+  // res.json({apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!"});
+  res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
+  res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
+  res.cookie("is_admin", user.admin, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
+
+  res.json({ apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!" });
 }));
 
-app.post('/logout', asyncWrapper( async (req, res) => {
+app.post('/logout', asyncWrapper(async (req, res) => {
 
   res.clearCookie("access_token");
   res.clearCookie("is_admin");
-  res.json({msg: "LOGGED OUT"});
+  res.json({ msg: "LOGGED OUT" });
 }));
 
 // app.get("/authUser", async (req, res) => {
@@ -81,7 +86,7 @@ app.post('/logout', asyncWrapper( async (req, res) => {
 
 app.get("/authUser", async (req, res) => {
   const token = req.cookies['access_token'];
-  
+
   if (!token) {
     return res.status(401).json({ error: 1, message: "Access denied" });
   }
