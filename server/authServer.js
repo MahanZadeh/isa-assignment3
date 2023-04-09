@@ -65,6 +65,9 @@ app.post('/login', asyncWrapper(async (req, res) => {
   //   maxAge: 2 * 60 * 60 * 1000, 
   // });
   // res.json({apiKey: user.apiKey, isAdmin: user.admin, msg: "logged in!"});
+  res.clearCookie("access_token");
+  res.clearCookie("is_admin");
+  res.clearCookie("username");
   res.cookie("username", user.username, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
   res.cookie("access_token", user.apiKey, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
   res.cookie("is_admin", user.admin, { maxAge: 2 * 60 * 60 * 1000, sameSite: 'none', secure: true });
