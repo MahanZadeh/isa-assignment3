@@ -27,6 +27,7 @@ function AdminLogin() {
 
     if (!error && resData && resData.isAdmin) {
       console.log(resData);
+      console.log("login success");
       setCredentialError(false);
       navigate("/");
     } else {
